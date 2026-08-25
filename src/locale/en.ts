@@ -22,4 +22,6 @@ export default {
   starredForRevision: "Starred for Revision",
   progress: "Progress",
   appTitle: "LeetCode Problem Rating",
+  topics: "Topics",
+  selectTopics: "Select Topics",
 };

@@ -22,4 +22,6 @@ export default {
   starredForRevision: "收藏复习",
   progress: "进度",
   appTitle: "LeetCode 题目评分",
+  topics: "标签",
+  selectTopics: "选择标签",
 };

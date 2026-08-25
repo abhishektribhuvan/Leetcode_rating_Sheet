@@ -100,6 +100,25 @@
               clearable
             />
           </el-form-item>
+          <el-form-item :label="$t('topics') || 'Topics'">
+            <el-select
+              v-model="selectedTopics"
+              multiple
+              clearable
+              collapse-tags
+              collapse-tags-tooltip
+              :placeholder="$t('selectTopics') || 'Select Topics'"
+              style="width: 200px"
+              @change="query"
+            >
+              <el-option
+                v-for="item in allTopics"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item :label="$t('contestNumber')">
             <el-input-number
               v-model="contestIndex"
@@ -361,6 +380,10 @@ const filterProblemSet: Array<Problem> = reactive([]);
 let keyword = ref("");
 let currentPage = ref(1);
 
+let selectedTopics = ref<string[]>([]);
+const allTopics = ref<string[]>([]);
+const topicsMap = reactive(new Map<string, string[]>());
+
 // ---- New state ----
 type ProgressFilter = "all" | "solved" | "unsolved" | "starred";
 let progressFilter = ref<ProgressFilter>("all");
@@ -392,18 +415,36 @@ const progressFilters = computed(() => [
 
 // ---- Lifecycle ----
 onMounted(() => {
-  axios.get(url).then((res: AxiosResponse<Array<Problem>>) => {
-    const problems = res.data;
-    problems.forEach((item) => {
-      item.ProblemHrefZH = "https://leetcode.cn/problems/" + item.TitleSlug;
-      item.ProblemHrefEN = "https://leetcode.com/problems/" + item.TitleSlug;
-      item.ContestHrefZH = "https://leetcode.cn/contest/" + item.ContestSlug;
-      item.ContestHrefEN = "https://leetcode.com/contest/" + item.ContestSlug;
-      problemSetAll.push(item);
-      filterProblemSet.push(item);
+  Promise.all([axios.get(url), axios.get("./merged_problems.json")])
+    .then(([dataRes, mergedRes]) => {
+      const problems = dataRes.data;
+      const mergedData = mergedRes.data;
+
+      // Process topics
+      const topicSet = new Set<string>();
+      if (mergedData && mergedData.questions) {
+        mergedData.questions.forEach((q: any) => {
+          const id = String(q.frontend_id);
+          const topics = q.topics || [];
+          topicsMap.set(id, topics);
+          topics.forEach((t: string) => topicSet.add(t));
+        });
+      }
+      allTopics.value = Array.from(topicSet).sort();
+
+      problems.forEach((item: any) => {
+        item.ProblemHrefZH = "https://leetcode.cn/problems/" + item.TitleSlug;
+        item.ProblemHrefEN = "https://leetcode.com/problems/" + item.TitleSlug;
+        item.ContestHrefZH = "https://leetcode.cn/contest/" + item.ContestSlug;
+        item.ContestHrefEN = "https://leetcode.com/contest/" + item.ContestSlug;
+        problemSetAll.push(item);
+        filterProblemSet.push(item);
+      });
+      query();
+    })
+    .catch((err) => {
+      console.error("Failed to load data:", err);
     });
-    query();
-  });
 });
 
 // ---- Existing functions (preserved 1:1) ----
@@ -489,6 +530,16 @@ function query() {
     if (progressFilter.value === "starred" && !isRevision(item.ID)) {
       return;
     }
+    // Topic filter (union)
+    if (selectedTopics.value.length > 0) {
+      const problemTopics = topicsMap.get(String(item.ID)) || [];
+      const hasTopic = selectedTopics.value.some((topic) =>
+        problemTopics.includes(topic)
+      );
+      if (!hasTopic) {
+        return;
+      }
+    }
     filterProblemSet.push(item);
   });
   filterProblemSet.sort((a: Problem, b: Problem) => {
@@ -509,6 +560,7 @@ function reset() {
   sortInfo.order = "descending";
   sortInfo.prop = "ID";
   progressFilter.value = "all";
+  selectedTopics.value = [];
   query();
 }
 
