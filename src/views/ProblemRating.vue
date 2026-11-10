@@ -994,93 +994,98 @@ function ratingClass(rating: number): string {
 
 <style scoped>
 /* ============================================
-   LAYOUT
+   APPLE LUXURY DARK THEME
    ============================================ */
 .app-container {
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 0 24px 48px;
+  padding: 0 24px 64px;
   min-height: 100vh;
 }
 
 /* ============================================
-   TOP BAR
+   TOP BAR - Apple Pro Header
    ============================================ */
 .top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0;
-  border-bottom: 1px solid #1e293b;
-  margin-bottom: 24px;
+  padding: 24px 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 28px;
 }
 .top-bar__title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .top-bar__icon {
-  width: 28px;
-  height: 28px;
-  color: #f97316;
+  width: 30px;
+  height: 30px;
+  color: #ff9f0a;
+  filter: drop-shadow(0 0 14px rgba(255, 159, 10, 0.45));
 }
 .top-bar__title h1 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
+  letter-spacing: -0.025em;
   margin: 0;
-  background: linear-gradient(135deg, #f97316, #eab308);
+  background: linear-gradient(180deg, #ffffff 10%, #e1e1e6 55%, #a1a1a6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .locale-toggle {
-  color: #94a3b8;
+  color: #86868b;
   font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid #334155;
-  transition: all 0.2s;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .locale-toggle:hover {
-  border-color: #f97316;
-  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  color: #f5f5f7;
 }
 
 /* ============================================
-   PROGRESS CARD
+   PROGRESS CARD - Apple Titanium Glass
    ============================================ */
 .progress-section {
   margin-bottom: 24px;
 }
 .progress-card {
-  background: linear-gradient(
-    135deg,
-    rgba(30, 41, 59, 0.8),
-    rgba(15, 23, 42, 0.9)
-  );
-  border: 1px solid #334155;
-  border-radius: 16px;
-  padding: 24px 32px;
-  backdrop-filter: blur(12px);
+  background: rgba(22, 22, 24, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 26px 34px;
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
 }
 .progress-card__stats {
   display: flex;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 16px;
+  gap: 40px;
+  margin-bottom: 18px;
 }
 .stat-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 .stat-item__label {
-  font-size: 12px;
-  color: #64748b;
+  font-size: 11px;
+  color: #86868b;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 600;
@@ -1088,65 +1093,81 @@ function ratingClass(rating: number): string {
 .stat-item__value {
   display: flex;
   align-items: baseline;
-  gap: 4px;
-  font-size: 24px;
+  gap: 6px;
+  font-size: 28px;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 .stat-item__number--solved {
-  color: #f97316;
+  color: #30d158;
+  text-shadow: 0 0 20px rgba(48, 209, 88, 0.35);
 }
 .stat-item__separator {
-  color: #475569;
+  color: #48484a;
   font-weight: 400;
+  margin: 0 1px;
 }
 .stat-item__total {
-  color: #64748b;
-  font-size: 18px;
+  color: #86868b;
+  font-size: 19px;
+  font-weight: 500;
 }
 .stat-item__icon {
-  color: #eab308;
-  font-size: 20px;
+  color: #ffd60a;
+  font-size: 22px;
+  filter: drop-shadow(0 0 10px rgba(255, 214, 10, 0.45));
 }
 .stat-item__number--starred {
-  color: #eab308;
+  color: #ffd60a;
+  text-shadow: 0 0 20px rgba(255, 214, 10, 0.35);
 }
 .stat-divider {
   width: 1px;
-  height: 40px;
-  background: #334155;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.08);
 }
 .progress-bar-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 .progress-bar-track {
   flex: 1;
-  height: 8px;
-  background: #1e293b;
-  border-radius: 4px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f97316, #eab308);
-  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #30d158 0%,
+    #34c759 40%,
+    #ffd60a 80%,
+    #ff9f0a 100%
+  );
+  border-radius: 9999px;
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 16px rgba(48, 209, 88, 0.45);
   min-width: 0;
 }
 .progress-bar-label {
   font-size: 13px;
   font-weight: 600;
-  color: #94a3b8;
-  min-width: 40px;
+  color: #d2d2d7;
+  min-width: 44px;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================
-   QUICK FILTERS
+   QUICK FILTERS - Apple Segmented Glass Pills
    ============================================ */
 .filters-section {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .quick-filters {
   display: flex;
@@ -1157,51 +1178,61 @@ function ratingClass(rating: number): string {
 .quick-filter-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  border-radius: 20px;
-  border: 1px solid #334155;
-  background: #1e293b;
-  color: #94a3b8;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #86868b;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: inherit;
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
 }
 .quick-filter-btn:hover {
-  border-color: #475569;
-  color: #e2e8f0;
-  background: #293548;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #f5f5f7;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 .quick-filter-btn--active {
-  background: rgba(249, 115, 22, 0.15);
-  border-color: #f97316;
-  color: #f97316;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 .quick-filter-btn--active:hover {
-  background: rgba(249, 115, 22, 0.25);
-  color: #fb923c;
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
 }
 .quick-filter-btn__count {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1px 7px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
   border-radius: 10px;
   font-size: 11px;
   font-weight: 600;
 }
 .quick-filter-btn--active .quick-filter-btn__count {
-  background: rgba(249, 115, 22, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 /* ============================================
-   FILTER BAR
+   FILTER BAR - Apple Glass Bar
    ============================================ */
 .filter-bar {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
-  padding: 16px 20px 4px;
+  background: rgba(22, 22, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 18px 22px 6px;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
 }
 .filter-form {
   display: flex;
@@ -1210,25 +1241,26 @@ function ratingClass(rating: number): string {
   gap: 0;
 }
 .dash-separator {
-  color: #64748b;
+  color: #6e6e73;
   font-weight: 500;
 }
 .reset-btn {
   padding: 8px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  background: linear-gradient(180deg, #ff453a 0%, #d70015 100%);
   color: #fff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: inherit;
+  box-shadow: 0 2px 10px rgba(255, 69, 58, 0.35);
 }
 .reset-btn:hover {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(180deg, #ff6961 0%, #ff453a 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 18px rgba(255, 69, 58, 0.5);
 }
 
 /* Groups Controls in Filter Bar */
@@ -1246,31 +1278,36 @@ function ratingClass(rating: number): string {
 }
 
 .group-option-badge {
-  background: rgba(249, 115, 22, 0.2);
-  color: #f97316;
+  background: rgba(41, 151, 255, 0.15);
+  color: #2997ff;
   font-size: 11px;
   font-weight: 600;
-  padding: 1px 6px;
-  border-radius: 10px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  border: 1px solid rgba(41, 151, 255, 0.25);
 }
 
 .manage-groups-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(249, 115, 22, 0.12);
-  border: 1px solid rgba(249, 115, 22, 0.35);
-  color: #f97316;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f5f5f7;
+  border-radius: 10px;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .manage-groups-btn:hover {
-  background: rgba(249, 115, 22, 0.25);
-  border-color: #f97316;
-  color: #fb923c;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
 }
 
 .manage-groups-btn .btn-icon {
@@ -1279,27 +1316,32 @@ function ratingClass(rating: number): string {
 }
 
 /* ============================================
-   GROUPS DIALOG MODAL
+   GROUPS DIALOG MODAL - Apple Sheet
    ============================================ */
 :deep(.groups-dialog) {
-  background: #0f172a !important;
-  border: 1px solid #334155;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  background: rgba(24, 24, 27, 0.9) !important;
+  backdrop-filter: saturate(190%) blur(35px) !important;
+  -webkit-backdrop-filter: saturate(190%) blur(35px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 
 :deep(.groups-dialog .el-dialog__title) {
-  color: #f8fafc;
+  color: #f5f5f7;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 19px;
+  letter-spacing: -0.015em;
 }
 
 :deep(.groups-dialog .el-dialog__headerbtn .el-dialog__close) {
-  color: #94a3b8;
+  color: #86868b;
+  transition: color 0.2s;
 }
 
 :deep(.groups-dialog .el-dialog__headerbtn:hover .el-dialog__close) {
-  color: #f8fafc;
+  color: #f5f5f7;
 }
 
 .groups-dialog__content {
@@ -1309,19 +1351,20 @@ function ratingClass(rating: number): string {
 }
 
 .group-form-card {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
   padding: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .group-form-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  color: #f97316;
+  color: #f5f5f7;
   margin-bottom: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .group-form-actions {
@@ -1332,38 +1375,44 @@ function ratingClass(rating: number): string {
 }
 
 .save-group-btn {
-  background: linear-gradient(135deg, #f97316, #ea580c) !important;
+  background: #0071e3 !important;
   border: none !important;
   font-weight: 600;
+  box-shadow: 0 2px 10px rgba(0, 113, 227, 0.45);
+  border-radius: 8px !important;
+  transition: all 0.2s;
 }
 
 .save-group-btn:hover {
-  background: linear-gradient(135deg, #fb923c, #f97316) !important;
+  background: #0077ed !important;
+  box-shadow: 0 4px 18px rgba(0, 113, 227, 0.65);
+  transform: translateY(-1px);
 }
 
 .existing-groups-section {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
   padding: 18px;
   max-height: 260px;
   overflow-y: auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .existing-groups-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  color: #94a3b8;
+  color: #86868b;
   margin-bottom: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .no-groups-hint {
   font-size: 13px;
-  color: #64748b;
+  color: #86868b;
   font-style: italic;
-  padding: 8px 0;
+  padding: 12px 0;
   text-align: center;
 }
 
@@ -1377,79 +1426,84 @@ function ratingClass(rating: number): string {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 8px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
   transition: all 0.2s;
 }
 
 .group-list-item:hover {
-  border-color: #475569;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
 }
 
 .group-list-item__info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   max-width: 75%;
 }
 
 .group-list-item__name {
   font-weight: 600;
-  color: #f1f5f9;
+  color: #f5f5f7;
   font-size: 14px;
 }
 
 .group-list-item__topics {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 5px;
 }
 
 .group-topic-tag {
-  background: rgba(148, 163, 184, 0.12);
-  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.08);
+  color: #86868b;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 4px;
+  padding: 2px 7px;
+  border-radius: 5px;
 }
 
 .group-list-item__actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .action-edit-btn {
-  color: #38bdf8 !important;
+  color: #2997ff !important;
 }
 
 .action-edit-btn:hover {
-  color: #7dd3fc !important;
+  color: #64d2ff !important;
 }
 
 .action-delete-btn {
-  color: #ef4444 !important;
+  color: #ff453a !important;
 }
 
 .action-delete-btn:hover {
-  color: #f87171 !important;
+  color: #ff6961 !important;
 }
 
 .action-apply-btn {
-  background: rgba(249, 115, 22, 0.15) !important;
-  border-color: rgba(249, 115, 22, 0.4) !important;
-  color: #f97316 !important;
+  background: rgba(41, 151, 255, 0.14) !important;
+  border-color: rgba(41, 151, 255, 0.35) !important;
+  color: #2997ff !important;
   font-weight: 600 !important;
-  border-radius: 6px !important;
-  padding: 4px 10px !important;
+  border-radius: 8px !important;
+  padding: 5px 14px !important;
+  transition: all 0.2s !important;
 }
 
 .action-apply-btn:hover {
-  background: #f97316 !important;
-  border-color: #f97316 !important;
-  color: #fff !important;
+  background: #0071e3 !important;
+  border-color: #0071e3 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 12px rgba(0, 113, 227, 0.5) !important;
 }
 
 .form-label-with-actions {
@@ -1468,66 +1522,72 @@ function ratingClass(rating: number): string {
 }
 
 .quick-action-link {
-  color: #f97316;
+  color: #2997ff;
   cursor: pointer;
   transition: color 0.15s;
 }
 
 .quick-action-link:hover {
-  color: #fb923c;
+  color: #64d2ff;
   text-decoration: underline;
 }
 
 .action-sep {
-  color: #475569;
+  color: #6e6e73;
 }
 
 .group-create-option {
-  border-top: 1px solid #334155;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin-top: 4px;
 }
 
 .group-create-item {
-  color: #f97316;
+  color: #2997ff;
   font-weight: 600;
   display: flex;
   align-items: center;
 }
 
 /* ============================================
-   TABLE
+   TABLE - Apple Pro Data Surface
    ============================================ */
 .table-section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 .table-card {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 16px;
+  background: rgba(18, 18, 20, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
 }
 
-/* Status Checkbox */
+/* Status Checkbox - Apple iOS Style */
 .status-checkbox {
   width: 24px;
   height: 24px;
-  border-radius: 6px;
-  border: 2px solid #475569;
-  background: transparent;
+  border-radius: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
 }
 .status-checkbox:hover {
-  border-color: #f97316;
-  background: rgba(249, 115, 22, 0.1);
+  border-color: #30d158;
+  background: rgba(48, 209, 88, 0.12);
+  box-shadow: 0 0 12px rgba(48, 209, 88, 0.3);
 }
 .status-checkbox--checked {
-  background: #f97316 !important;
-  border-color: #f97316 !important;
+  background: #30d158 !important;
+  border-color: #30d158 !important;
+  box-shadow: 0 2px 10px rgba(48, 209, 88, 0.5);
   animation: checkPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .check-icon {
@@ -1552,61 +1612,77 @@ function ratingClass(rating: number): string {
 
 /* Cell styles */
 .cell-id {
-  color: #64748b;
+  color: #86868b;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 .cell-contest {
-  color: #94a3b8 !important;
+  color: #86868b !important;
   font-size: 13px;
 }
 .cell-index {
-  color: #64748b;
+  color: #6e6e73;
   font-size: 13px;
+  font-weight: 500;
 }
 .completed-title {
-  opacity: 0.55 !important;
+  opacity: 0.45 !important;
   text-decoration: line-through !important;
-  text-decoration-color: #475569 !important;
+  text-decoration-color: #6e6e73 !important;
 }
 
-/* Rating Pills */
+/* Rating Pills - Apple System Jewel Colors */
 .rating-pill {
   display: inline-block;
   padding: 3px 12px;
-  border-radius: 12px;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   letter-spacing: 0.02em;
 }
 .rating-pill--gray {
-  background: rgba(100, 116, 139, 0.15);
-  color: #94a3b8;
+  background: rgba(142, 142, 147, 0.14);
+  color: #aeaeb2;
+  border: 1px solid rgba(142, 142, 147, 0.24);
 }
 .rating-pill--green {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
+  background: rgba(48, 209, 88, 0.14);
+  color: #30d158;
+  border: 1px solid rgba(48, 209, 88, 0.28);
+  box-shadow: 0 0 10px rgba(48, 209, 88, 0.12);
 }
 .rating-pill--cyan {
-  background: rgba(6, 182, 212, 0.15);
-  color: #22d3ee;
+  background: rgba(100, 210, 255, 0.14);
+  color: #64d2ff;
+  border: 1px solid rgba(100, 210, 255, 0.28);
+  box-shadow: 0 0 10px rgba(100, 210, 255, 0.12);
 }
 .rating-pill--blue {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
+  background: rgba(41, 151, 255, 0.14);
+  color: #2997ff;
+  border: 1px solid rgba(41, 151, 255, 0.28);
+  box-shadow: 0 0 10px rgba(41, 151, 255, 0.12);
 }
 .rating-pill--purple {
-  background: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
+  background: rgba(191, 90, 242, 0.14);
+  color: #bf5af2;
+  border: 1px solid rgba(191, 90, 242, 0.28);
+  box-shadow: 0 0 10px rgba(191, 90, 242, 0.12);
 }
 .rating-pill--orange {
-  background: rgba(249, 115, 22, 0.15);
-  color: #fb923c;
+  background: rgba(255, 159, 10, 0.14);
+  color: #ff9f0a;
+  border: 1px solid rgba(255, 159, 10, 0.28);
+  box-shadow: 0 0 10px rgba(255, 159, 10, 0.12);
 }
 .rating-pill--red {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
+  background: rgba(255, 69, 58, 0.14);
+  color: #ff453a;
+  border: 1px solid rgba(255, 69, 58, 0.28);
+  box-shadow: 0 0 10px rgba(255, 69, 58, 0.12);
 }
 
 /* Star Button */
@@ -1614,16 +1690,16 @@ function ratingClass(rating: number): string {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 5px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 6px;
+  border-radius: 7px;
 }
 .star-btn:hover {
-  transform: scale(1.15);
-  background: rgba(234, 179, 8, 0.1);
+  transform: scale(1.18);
+  background: rgba(255, 214, 10, 0.12);
 }
 .star-icon {
   width: 20px;
@@ -1631,7 +1707,7 @@ function ratingClass(rating: number): string {
   transition: all 0.2s;
 }
 .star-icon--filled {
-  filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.4));
+  filter: drop-shadow(0 0 6px rgba(255, 214, 10, 0.5));
   animation: starPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1653,7 +1729,7 @@ function ratingClass(rating: number): string {
 .pagination-footer {
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  padding: 24px 0 12px;
 }
 
 /* ============================================
@@ -1669,7 +1745,7 @@ function ratingClass(rating: number): string {
     align-items: flex-start;
   }
   .top-bar__title h1 {
-    font-size: 18px;
+    font-size: 19px;
   }
   .progress-card {
     padding: 16px 20px;
@@ -1684,7 +1760,7 @@ function ratingClass(rating: number): string {
     height: 1px;
   }
   .stat-item__value {
-    font-size: 20px;
+    font-size: 22px;
   }
   .filter-bar {
     padding: 12px 12px 0;
@@ -1714,13 +1790,13 @@ function ratingClass(rating: number): string {
 
 @media (max-width: 480px) {
   .top-bar__title h1 {
-    font-size: 16px;
+    font-size: 17px;
   }
   .progress-card {
     padding: 14px 16px;
   }
   .stat-item__value {
-    font-size: 18px;
+    font-size: 19px;
   }
 }
 </style>
