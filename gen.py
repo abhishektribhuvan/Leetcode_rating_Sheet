@@ -4,6 +4,8 @@ raw_data = [[y for y in x.strip().split("\t") if y] for x in open("ratings.txt")
 title = [x.replace(" ", "") for x in raw_data[0]] + ["ContestID_en"] + ["ContestID_zh"]
 body = raw_data[1:]
 
+# added for changing code
+
 def contest_slug_to_id_en(contest_slug: str) -> str:
     idx = contest_slug.split("-")[-1]
     if contest_slug.startswith("bi"):
