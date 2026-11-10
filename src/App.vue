@@ -248,4 +248,37 @@ body {
   --el-message-border-color: #334155 !important;
   --el-message-text-color: #f8fafc !important;
 }
+
+/* Dialog */
+.el-dialog {
+  background-color: #1e293b !important;
+  border: 1px solid #334155 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+    0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+}
+.el-dialog__header {
+  border-bottom: 1px solid #334155;
+  margin-right: 0 !important;
+  padding: 16px 20px !important;
+}
+.el-dialog__title {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+}
+.el-dialog__body {
+  padding: 20px !important;
+  color: #cbd5e1 !important;
+}
+.el-dialog__footer {
+  border-top: 1px solid #334155;
+  padding: 14px 20px !important;
+}
+.el-dialog__headerbtn .el-dialog__close {
+  color: #94a3b8 !important;
+  font-size: 18px;
+}
+.el-dialog__headerbtn:hover .el-dialog__close {
+  color: #f97316 !important;
+}
 </style>

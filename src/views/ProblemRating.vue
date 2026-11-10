@@ -109,7 +109,7 @@
               collapse-tags-tooltip
               :placeholder="$t('selectTopics') || 'Select Topics'"
               style="width: 200px"
-              @change="query"
+              @change="onTopicSelectionChange"
             >
               <el-option
                 v-for="item in allTopics"
@@ -118,6 +118,56 @@
                 :value="item"
               />
             </el-select>
+          </el-form-item>
+
+          <!-- My Groups Dropdown & Manage Button -->
+          <el-form-item :label="$t('myGroups') || 'My Groups'">
+            <div class="groups-control">
+              <el-select
+                v-model="selectedGroupId"
+                clearable
+                :placeholder="$t('selectGroup') || 'Select Group'"
+                style="width: 170px"
+                @change="onGroupSelect"
+              >
+                <el-option
+                  v-for="grp in customGroups"
+                  :key="grp.id"
+                  :label="grp.name"
+                  :value="grp.id"
+                >
+                  <div class="group-option-item">
+                    <span>{{ grp.name }}</span>
+                    <span class="group-option-badge">{{
+                      grp.topics.length
+                    }}</span>
+                  </div>
+                </el-option>
+                <el-option value="__create__" class="group-create-option">
+                  <div class="group-create-item">
+                    <span>+ {{ $t("createGroup") || "Create Group" }}...</span>
+                  </div>
+                </el-option>
+              </el-select>
+
+              <button
+                type="button"
+                class="manage-groups-btn"
+                @click="openGroupDialog"
+                :title="$t('createGroup') || 'Create Group'"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="btn-icon"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                <span>{{ $t("createGroup") || "Create Group" }}</span>
+              </button>
+            </div>
           </el-form-item>
           <el-form-item :label="$t('contestNumber')">
             <el-input-number
@@ -317,12 +367,167 @@
         @size-change="sizeChange"
       />
     </footer>
+
+    <!-- ======== MY GROUPS MODAL ======== -->
+    <el-dialog
+      v-model="groupDialogVisible"
+      :title="$t('manageGroups') || 'Manage Groups'"
+      width="580px"
+      custom-class="groups-dialog"
+      :close-on-click-modal="false"
+    >
+      <div class="groups-dialog__content">
+        <!-- Create / Edit Form -->
+        <div class="group-form-card">
+          <div class="group-form-title">
+            {{
+              editingGroupId
+                ? $t("groupUpdated") || "Edit Group"
+                : $t("createGroup") || "Create Group"
+            }}
+          </div>
+          <el-form
+            label-position="top"
+            class="custom-group-form"
+            @submit.prevent
+          >
+            <el-form-item :label="$t('groupName') || 'Group Name'">
+              <el-input
+                v-model="newGroupName"
+                :placeholder="
+                  $t('enterGroupName') || 'e.g. Dynamic Programming & Trees'
+                "
+                maxlength="40"
+                show-word-limit
+                clearable
+                @keyup.enter="saveCustomGroup"
+              />
+            </el-form-item>
+            <el-form-item>
+              <template #label>
+                <div class="form-label-with-actions">
+                  <span
+                    >{{ $t("groupTopics") || "Select Topics for Group" }} ({{
+                      newGroupTopics.length
+                    }})</span
+                  >
+                  <div class="topic-quick-actions">
+                    <span class="quick-action-link" @click="selectAllTopics">{{
+                      $t("selectAll") || "Select All"
+                    }}</span>
+                    <span class="action-sep">|</span>
+                    <span class="quick-action-link" @click="clearAllTopics">{{
+                      $t("clearAll") || "Clear All"
+                    }}</span>
+                  </div>
+                </div>
+              </template>
+              <el-select
+                v-model="newGroupTopics"
+                multiple
+                filterable
+                clearable
+                collapse-tags
+                collapse-tags-tooltip
+                :placeholder="$t('selectTopics') || 'Select Topics'"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="item in allTopics"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+            </el-form-item>
+            <div class="group-form-actions">
+              <el-button
+                v-if="editingGroupId"
+                size="small"
+                @click="cancelEditGroup"
+              >
+                {{ $t("cancel") || "Cancel" }}
+              </el-button>
+              <el-button
+                type="primary"
+                size="small"
+                class="save-group-btn"
+                @click="saveCustomGroup"
+              >
+                {{ $t("saveGroup") || "Save Group" }}
+              </el-button>
+            </div>
+          </el-form>
+        </div>
+
+        <!-- Existing Groups List -->
+        <div class="existing-groups-section">
+          <div class="existing-groups-title">
+            {{ $t("existingGroups") || $t("myGroups") || "My Groups" }} ({{
+              customGroups.length
+            }})
+          </div>
+          <div v-if="customGroups.length === 0" class="no-groups-hint">
+            {{
+              $t("noGroupsYet") ||
+              "No custom groups created yet. Create one above!"
+            }}
+          </div>
+          <div v-else class="groups-list">
+            <div
+              v-for="grp in customGroups"
+              :key="grp.id"
+              class="group-list-item"
+            >
+              <div class="group-list-item__info">
+                <div class="group-list-item__name">{{ grp.name }}</div>
+                <div class="group-list-item__topics">
+                  <span
+                    v-for="t in grp.topics"
+                    :key="t"
+                    class="group-topic-tag"
+                    >{{ t }}</span
+                  >
+                </div>
+              </div>
+              <div class="group-list-item__actions">
+                <el-button
+                  size="small"
+                  type="primary"
+                  plain
+                  class="action-apply-btn"
+                  @click="applyGroup(grp)"
+                >
+                  {{ $t("applyGroup") || "Apply" }}
+                </el-button>
+                <el-button
+                  size="small"
+                  type="text"
+                  class="action-edit-btn"
+                  @click="editGroup(grp)"
+                >
+                  Edit
+                </el-button>
+                <el-button
+                  size="small"
+                  type="text"
+                  class="action-delete-btn"
+                  @click="deleteGroup(grp.id)"
+                >
+                  {{ $t("deleteGroup") || "Delete" }}
+                </el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive, onMounted, ref, computed } from "vue";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { useStorage } from "../composables/useStorage";
@@ -383,6 +588,210 @@ let currentPage = ref(1);
 let selectedTopics = ref<string[]>([]);
 const allTopics = ref<string[]>([]);
 const topicsMap = reactive(new Map<string, string[]>());
+
+// ---- Custom Topic Groups State ----
+interface TopicGroup {
+  id: string;
+  name: string;
+  topics: string[];
+}
+
+const GROUPS_STORAGE_KEY = "lc_custom_topic_groups";
+
+function loadCustomGroups(): TopicGroup[] {
+  try {
+    const raw = localStorage.getItem(GROUPS_STORAGE_KEY);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    console.error("Failed to parse custom groups:", e);
+  }
+  return [];
+}
+
+function saveCustomGroupsToStorage(groups: TopicGroup[]) {
+  try {
+    localStorage.setItem(GROUPS_STORAGE_KEY, JSON.stringify(groups));
+  } catch (e) {
+    console.error("Failed to save custom groups:", e);
+  }
+}
+
+const customGroups = ref<TopicGroup[]>(loadCustomGroups());
+const selectedGroupId = ref<string>("");
+const groupDialogVisible = ref(false);
+const editingGroupId = ref<string | null>(null);
+const newGroupName = ref("");
+const newGroupTopics = ref<string[]>([]);
+
+function onGroupSelect(groupId: string) {
+  if (groupId === "__create__") {
+    selectedGroupId.value = "";
+    openGroupDialog();
+    return;
+  }
+  if (!groupId) {
+    // Group deselected: clear topics and query
+    selectedTopics.value = [];
+    query();
+    return;
+  }
+  const grp = customGroups.value.find((g) => g.id === groupId);
+  if (grp) {
+    selectedTopics.value = [...grp.topics];
+    query();
+  }
+}
+
+function onTopicSelectionChange() {
+  // If user manually changes topics, verify if it still matches the selected group
+  if (selectedGroupId.value) {
+    const grp = customGroups.value.find((g) => g.id === selectedGroupId.value);
+    if (grp) {
+      const isExactMatch =
+        grp.topics.length === selectedTopics.value.length &&
+        grp.topics.every((t) => selectedTopics.value.includes(t));
+      if (!isExactMatch) {
+        selectedGroupId.value = "";
+      }
+    }
+  }
+  query();
+}
+
+function openGroupDialog() {
+  editingGroupId.value = null;
+  newGroupName.value = "";
+  // If user already had some topics selected, prefill them to make group creation easy!
+  newGroupTopics.value =
+    selectedTopics.value.length > 0 ? [...selectedTopics.value] : [];
+  groupDialogVisible.value = true;
+}
+
+function applyGroup(grp: TopicGroup) {
+  selectedGroupId.value = grp.id;
+  selectedTopics.value = [...grp.topics];
+  query();
+  groupDialogVisible.value = false;
+}
+
+function selectAllTopics() {
+  newGroupTopics.value = [...allTopics.value];
+}
+
+function clearAllTopics() {
+  newGroupTopics.value = [];
+}
+
+function editGroup(grp: TopicGroup) {
+  editingGroupId.value = grp.id;
+  newGroupName.value = grp.name;
+  newGroupTopics.value = [...grp.topics];
+}
+
+function cancelEditGroup() {
+  editingGroupId.value = null;
+  newGroupName.value = "";
+  newGroupTopics.value = [];
+}
+
+function saveCustomGroup() {
+  const name = newGroupName.value.trim();
+  if (!name) {
+    ElMessage.warning({
+      message:
+        (i18n.t("pleaseEnterGroupName") as string) ||
+        "Please enter a group name",
+      duration: 2000,
+    });
+    return;
+  }
+  if (newGroupTopics.value.length === 0) {
+    ElMessage.warning({
+      message:
+        (i18n.t("pleaseSelectTopics") as string) ||
+        "Please select at least one topic",
+      duration: 2000,
+    });
+    return;
+  }
+
+  const duplicate = customGroups.value.find(
+    (g) =>
+      g.name.toLowerCase() === name.toLowerCase() &&
+      g.id !== editingGroupId.value
+  );
+  if (duplicate) {
+    ElMessage.warning({
+      message:
+        (i18n.t("groupExists") as string) ||
+        "A group with this name already exists",
+      duration: 2000,
+    });
+    return;
+  }
+
+  if (editingGroupId.value) {
+    // Update existing group
+    const idx = customGroups.value.findIndex(
+      (g) => g.id === editingGroupId.value
+    );
+    if (idx !== -1) {
+      customGroups.value[idx].name = name;
+      customGroups.value[idx].topics = [...newGroupTopics.value];
+      saveCustomGroupsToStorage(customGroups.value);
+      ElMessage.success({
+        message: (i18n.t("groupUpdated") as string) || "Group updated",
+        duration: 1500,
+      });
+      // If currently active, refresh selection
+      if (selectedGroupId.value === editingGroupId.value) {
+        selectedTopics.value = [...newGroupTopics.value];
+        query();
+      }
+    }
+    cancelEditGroup();
+  } else {
+    // Create new group
+    const newGroup: TopicGroup = {
+      id:
+        "grp_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7),
+      name,
+      topics: [...newGroupTopics.value],
+    };
+    customGroups.value.push(newGroup);
+    saveCustomGroupsToStorage(customGroups.value);
+    ElMessage.success({
+      message:
+        (i18n.t("groupCreated") as string) || "Group created successfully",
+      duration: 1500,
+    });
+    // Auto-select the newly created group!
+    selectedGroupId.value = newGroup.id;
+    selectedTopics.value = [...newGroup.topics];
+    query();
+
+    newGroupName.value = "";
+    newGroupTopics.value = [];
+    groupDialogVisible.value = false;
+  }
+}
+
+function deleteGroup(id: string) {
+  customGroups.value = customGroups.value.filter((g) => g.id !== id);
+  saveCustomGroupsToStorage(customGroups.value);
+  if (selectedGroupId.value === id) {
+    selectedGroupId.value = "";
+  }
+  if (editingGroupId.value === id) {
+    cancelEditGroup();
+  }
+  ElMessage.info({
+    message: (i18n.t("groupDeleted") as string) || "Group deleted",
+    duration: 1500,
+  });
+}
 
 // ---- New state ----
 type ProgressFilter = "all" | "solved" | "unsolved" | "starred";
@@ -560,6 +969,7 @@ function reset() {
   sortInfo.order = "descending";
   sortInfo.prop = "ID";
   progressFilter.value = "all";
+  selectedGroupId.value = "";
   selectedTopics.value = [];
   query();
 }
@@ -819,6 +1229,269 @@ function ratingClass(rating: number): string {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Groups Controls in Filter Bar */
+.groups-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.group-option-badge {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.manage-groups-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #f97316;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+  padding: 8px 14px;
+}
+
+.manage-groups-btn:hover {
+  background: rgba(249, 115, 22, 0.25);
+  border-color: #f97316;
+  color: #fb923c;
+}
+
+.manage-groups-btn .btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================
+   GROUPS DIALOG MODAL
+   ============================================ */
+:deep(.groups-dialog) {
+  background: #0f172a !important;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+:deep(.groups-dialog .el-dialog__title) {
+  color: #f8fafc;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+:deep(.groups-dialog .el-dialog__headerbtn .el-dialog__close) {
+  color: #94a3b8;
+}
+
+:deep(.groups-dialog .el-dialog__headerbtn:hover .el-dialog__close) {
+  color: #f8fafc;
+}
+
+.groups-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.group-form-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.group-form-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f97316;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.group-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.save-group-btn {
+  background: linear-gradient(135deg, #f97316, #ea580c) !important;
+  border: none !important;
+  font-weight: 600;
+}
+
+.save-group-btn:hover {
+  background: linear-gradient(135deg, #fb923c, #f97316) !important;
+}
+
+.existing-groups-section {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 18px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.existing-groups-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.no-groups-hint {
+  font-size: 13px;
+  color: #64748b;
+  font-style: italic;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.group-list-item:hover {
+  border-color: #475569;
+}
+
+.group-list-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 75%;
+}
+
+.group-list-item__name {
+  font-weight: 600;
+  color: #f1f5f9;
+  font-size: 14px;
+}
+
+.group-list-item__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.group-topic-tag {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.group-list-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-edit-btn {
+  color: #38bdf8 !important;
+}
+
+.action-edit-btn:hover {
+  color: #7dd3fc !important;
+}
+
+.action-delete-btn {
+  color: #ef4444 !important;
+}
+
+.action-delete-btn:hover {
+  color: #f87171 !important;
+}
+
+.action-apply-btn {
+  background: rgba(249, 115, 22, 0.15) !important;
+  border-color: rgba(249, 115, 22, 0.4) !important;
+  color: #f97316 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+}
+
+.action-apply-btn:hover {
+  background: #f97316 !important;
+  border-color: #f97316 !important;
+  color: #fff !important;
+}
+
+.form-label-with-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.topic-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.quick-action-link {
+  color: #f97316;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.quick-action-link:hover {
+  color: #fb923c;
+  text-decoration: underline;
+}
+
+.action-sep {
+  color: #475569;
+}
+
+.group-create-option {
+  border-top: 1px solid #334155;
+  margin-top: 4px;
+}
+
+.group-create-item {
+  color: #f97316;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }
 
 /* ============================================
